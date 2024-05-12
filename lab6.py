@@ -65,13 +65,17 @@ class MainWindow(tk.Tk):
             messagebox.showinfo("Save", "Notes saved as TXT file successfully!")
 
     def save_json_note(self):
-        filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON Files", "*.json")])
-        if filename:
-            with open(filename, 'w') as file:
-                json.dump(self.notes, file, indent=4)
+         confirmation = messagebox.askyesno("Confirmation", "Saving File as JSON file") #Confirm if you want to save file as JSON
+         if confirmation:
+            filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON Files", "*.json")])
+            if filename:
+                with open(filename, 'w') as file:
+                    json.dump(self.notes, file, indent=4)
             messagebox.showinfo("Save", "Notes saved as JSON file successfully!")
 
     def save_csv_note(self):
+        confirmation = messagebox.askyesno("Confirmation", "Saving File as CSV file") #Confirm if you want to save file as CSV
+        if confirmation:
         filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
         if filename:
             with open(filename, 'w', newline='') as file:
@@ -119,9 +123,14 @@ class MainWindow(tk.Tk):
             save_button = tk.Button(edit_window, text="Save Changes", command=save_changes)
             save_button.pack()
 
+           
+
         edit_button = tk.Button(view_window, text="Edit Selected Note", command=edit_note)
         edit_button.pack()
-
+        
+    delete_button = tk.Button(edit_window, text="Delete Note", command=lambda: delete_note(selected_index)) #Delete note
+    delete_button.pack() 
+                                     
 if __name__ == '__main__':
     main_window = MainWindow()
     main_window.mainloop()
